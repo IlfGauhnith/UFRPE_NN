@@ -38,12 +38,12 @@ def binary_threshold(x):
 
 class Perceptron(object):
 
-  def __init__(self, activation_function, n_inputs, epochs=100, learning_rate=0.01):
+  def __init__(self, activation_function, n_inputs, weights, epochs=100, learning_rate=0.01):
     self.epochs = epochs
     self.learning_rate = learning_rate
     self.activation_function = activation_function
     self.n_inputs = n_inputs
-    self.weights = np.random.randn(self.n_inputs) / np.sqrt(self.n_inputs)
+    self.weights = weights
 
   def predict(self, inputs):
     pred = np.dot(self.weights.T, inputs)
@@ -73,6 +73,7 @@ if __name__ == "__main__":
     train_X["bias"] = 1
     test_X["bias"] = 1
 
+    weights = np.random.randn(train_X.shape[1]) / np.sqrt(train_X.shape[1])
     learning_rates = [0.01, 0.1]
     activation_functions = [step_func, sig, relu]
     epochs = [100, 500, 1000]
@@ -82,6 +83,7 @@ if __name__ == "__main__":
     for (learning_rate, activation_function, epoch) in hyper_p:
         perceptron = Perceptron(learning_rate=learning_rate,
                                 activation_function=activation_function,
+                                weights=weights,
                                 n_inputs=train_X.shape[1],
                                 epochs=epoch)
 
