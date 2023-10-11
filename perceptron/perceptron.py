@@ -28,7 +28,14 @@ def sig(x):
 
 def relu(x):
 	return max(0.0, x)
- 
+
+def binary_threshold(x):
+  if x >= 0.5:
+     return 1
+  else:
+     return 0
+
+
 class Perceptron(object):
 
   def __init__(self, activation_function, n_inputs, epochs=100, learning_rate=0.01):
@@ -40,7 +47,7 @@ class Perceptron(object):
 
   def predict(self, inputs):
     pred = np.dot(self.weights.T, inputs)
-    return self.activation_function(pred)
+    return binary_threshold(self.activation_function(pred))
 
   def train(self, training_inputs, labels):
     
@@ -68,7 +75,7 @@ if __name__ == "__main__":
 
     learning_rates = [0.01, 0.1]
     activation_functions = [step_func, sig, relu]
-    epochs = [100, 500]
+    epochs = [100, 500, 1000]
 
     hyper_p = itertools.product(learning_rates, activation_functions, epochs)
     outputs = []
